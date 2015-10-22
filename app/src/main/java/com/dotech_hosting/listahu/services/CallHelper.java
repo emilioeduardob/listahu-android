@@ -3,13 +3,13 @@ package com.dotech_hosting.listahu.services;
 import android.content.Context;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-
-import com.dotech_hosting.listahu.CallStateListener;
+import android.util.Log;
 
 /**
  * Created by emilio on 10/22/15.
  */
 public class CallHelper {
+    private static final String TAG = CallHelper.class.getSimpleName();
     private final TelephonyManager tm;
     private Context ctx;
     private CallStateListener callStateListener = new CallStateListener();
@@ -20,6 +20,7 @@ public class CallHelper {
     }
 
     public void start() {
+        Log.d(TAG, "Escuchando llamada");
         tm.listen(callStateListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
 

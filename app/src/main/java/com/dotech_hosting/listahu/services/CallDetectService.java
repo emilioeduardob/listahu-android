@@ -5,11 +5,13 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 /**
  * Created by emilio on 10/22/15.
  */
 public class CallDetectService extends Service {
+    private static final String TAG = CallDetectService.class.getSimpleName();
     private CallHelper callHelper;
 
     public CallDetectService() {
@@ -17,6 +19,7 @@ public class CallDetectService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "Servicio iniciado");
         callHelper = new CallHelper(this);
 
         int res = super.onStartCommand(intent, flags, startId);
@@ -26,6 +29,7 @@ public class CallDetectService extends Service {
 
     @Override
     public void onDestroy() {
+        Log.d(TAG, "Servicio destruido");
         super.onDestroy();
 
         callHelper.stop();
