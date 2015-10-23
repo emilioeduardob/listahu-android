@@ -20,7 +20,6 @@ public class CallHelper {
     }
 
     public void start() {
-        Log.d(TAG, "Escuchando llamada");
         tm.listen(callStateListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
 

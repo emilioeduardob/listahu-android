@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.dotech_hosting.listahu.MainApp;
+import com.dotech_hosting.listahu.support.UIHelpers;
 
 /**
  * Created by emilio on 10/22/15.
@@ -34,9 +35,7 @@ public class SmsListener extends BroadcastReceiver {
                         msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                         msg_from = msgs[i].getOriginatingAddress();
                         String msgBody = msgs[i].getMessageBody();
-                        Toast.makeText(MainApp.getContext(),
-                                "Incoming SMS: " + msg_from,
-                                Toast.LENGTH_LONG).show();
+                        UIHelpers.showToast("Incoming SMS from " + msg_from);
                     }
                 } catch (Exception e) {
                     Log.d(TAG, e.getMessage());

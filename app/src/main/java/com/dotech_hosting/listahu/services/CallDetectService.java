@@ -19,7 +19,6 @@ public class CallDetectService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "Servicio iniciado");
         callHelper = new CallHelper(this);
 
         int res = super.onStartCommand(intent, flags, startId);
@@ -29,7 +28,6 @@ public class CallDetectService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "Servicio destruido");
         super.onDestroy();
 
         callHelper.stop();
