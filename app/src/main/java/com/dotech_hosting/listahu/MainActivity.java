@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.dotech_hosting.listahu.services.CallDetectService;
 import com.dotech_hosting.listahu.services.CallHelper;
+import com.dotech_hosting.listahu.support.UIHelpers;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,10 +48,12 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, CallDetectService.class);
         if (running) {
             Log.d(TAG, "Estaba corriendo");
+            UIHelpers.showToast("Deteniendo servicio");
             stopService(i);
             bnToggleService.setText("Iniciar Servicio");
         } else {
             Log.d(TAG, "NO Estaba corriendo");
+            UIHelpers.showToast("Iniciando servicio");
             startService(i);
             bnToggleService.setText("Detener Servicio");
         }
