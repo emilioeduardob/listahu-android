@@ -12,7 +12,7 @@ import com.dotech_hosting.listahu.R;
 /**
  * Created by emilio on 10/23/15.
  */
-public class UIHelpers {
+public class AppHelpers {
     public static void showToast(String message) {
         Toast toast = new Toast(MainApp.getContext());
         toast.setDuration(Toast.LENGTH_LONG);

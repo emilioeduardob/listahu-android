@@ -39,7 +39,7 @@ public class RealmManager {
 
     public RealmConfiguration getRealmConfiguration() {
         return new RealmConfiguration.Builder(mContext)
-                .name("visor.realm")
+                .name("listahu.realm")
                 .schemaVersion(1)
                         //.migration(new MyMigration())
                 .build();

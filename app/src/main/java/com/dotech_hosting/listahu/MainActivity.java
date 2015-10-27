@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,8 +12,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.dotech_hosting.listahu.services.CallDetectService;
-import com.dotech_hosting.listahu.services.CallHelper;
-import com.dotech_hosting.listahu.support.UIHelpers;
+import com.dotech_hosting.listahu.services.SyncService;
+import com.dotech_hosting.listahu.support.AppHelpers;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,13 +47,14 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, CallDetectService.class);
         if (running) {
             Log.d(TAG, "Estaba corriendo");
-            UIHelpers.showToast("Deteniendo servicio");
+            AppHelpers.showToast("Deteniendo servicio");
             stopService(i);
             bnToggleService.setText("Iniciar Servicio");
         } else {
             Log.d(TAG, "NO Estaba corriendo");
-            UIHelpers.showToast("Iniciando servicio");
+            AppHelpers.showToast("Iniciando servicio");
             startService(i);
+            sync();
             bnToggleService.setText("Detener Servicio");
         }
     }
@@ -74,5 +74,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    public void sync() {
+        new SyncService(this).sync();
     }
 }
