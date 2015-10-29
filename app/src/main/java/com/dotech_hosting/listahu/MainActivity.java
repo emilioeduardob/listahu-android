@@ -47,12 +47,10 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, CallDetectService.class);
         if (running) {
             Log.d(TAG, "Estaba corriendo");
-            AppHelpers.showToast("Deteniendo servicio");
             stopService(i);
             bnToggleService.setText("Iniciar Servicio");
         } else {
             Log.d(TAG, "NO Estaba corriendo");
-            AppHelpers.showToast("Iniciando servicio");
             startService(i);
             sync();
             bnToggleService.setText("Detener Servicio");

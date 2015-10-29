@@ -6,6 +6,7 @@ import android.util.Log;
 import com.dotech_hosting.listahu.APIBackend;
 import com.dotech_hosting.listahu.ApiService;
 import com.dotech_hosting.listahu.MainActivity;
+import com.dotech_hosting.listahu.models.Denuncia;
 import com.dotech_hosting.listahu.models.DenunciaWrapper;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -27,9 +28,9 @@ public class SyncService {
        mContext = context;
     }
 
+    // Get denuncias from page 1
     public void sync() {
-        int page = Prefs.getInt("page", 1);
-        getPage(page);
+        getPage(1);
     }
 
     public void getPage(final int page) {
@@ -44,12 +45,7 @@ public class SyncService {
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            DenunciaWrapper data = response.body();
-                            realm.copyToRealmOrUpdate(data.results);
-                            Prefs.putInt("page", page);
-                            if (data.next != null) {
-                                getPage(page + 1);
-                            }
+                            processResults(realm, response, page);
                         }
                     });
                     realm.close();
@@ -62,5 +58,24 @@ public class SyncService {
             }
 
         });
+    }
+
+    private void processResults(Realm realm, Response<DenunciaWrapper> response, int page) {
+        DenunciaWrapper data = response.body();
+
+        if (!data.results.isEmpty()) {
+
+            Denuncia denuncia = realm.where(Denuncia.class)
+                    .equalTo("id", data.results.get(0).getId())
+                    .findFirst();
+
+            if (denuncia == null) {
+                realm.copyToRealmOrUpdate(data.results);
+                Prefs.putInt("page", page);
+                if (data.next != null) {
+                    getPage(page + 1);
+                }
+            }
+        }
     }
 }

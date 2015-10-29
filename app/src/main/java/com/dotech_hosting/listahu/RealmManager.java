@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 
+import com.dotech_hosting.listahu.models.Denuncia;
+
+import javax.crypto.spec.DESedeKeySpec;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.exceptions.RealmMigrationNeededException;
@@ -14,15 +18,15 @@ import io.realm.exceptions.RealmMigrationNeededException;
 public class RealmManager {
 
     private static final String TAG = RealmManager.class.getSimpleName();
-    private final Context mContext;
+    private final Realm mRealm;
 
-    public RealmManager(Context context) {
-        mContext = context;
+    public RealmManager(Realm realm) {
+        mRealm = realm;
     }
 
-    public void setupRealm() {
+    public static void setupRealm(Context context) {
         // Setup
-        RealmConfiguration realmConfig = getRealmConfiguration();
+        RealmConfiguration realmConfig = getRealmConfiguration(context);
 
         Realm.setDefaultConfiguration(realmConfig);
 
@@ -37,22 +41,29 @@ public class RealmManager {
 
     }
 
-    public RealmConfiguration getRealmConfiguration() {
+    public static RealmConfiguration getRealmConfiguration(Context mContext) {
         return new RealmConfiguration.Builder(mContext)
                 .name("listahu.realm")
                 .schemaVersion(1)
-                        //.migration(new MyMigration())
                 .build();
     }
 
-    public void clearRealm() {
+    public static void clearRealm() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-//        realm.clear(Promocion.class);
+        realm.clear(Denuncia.class);
         realm.commitTransaction();
         realm.close();
     }
 
+
+    public Denuncia isReported(String incomingNumber) {
+        Denuncia result = mRealm.where(Denuncia.class)
+                .equalTo("numero", incomingNumber)
+                .findFirst();
+
+        return result;
+    }
 }
 
 

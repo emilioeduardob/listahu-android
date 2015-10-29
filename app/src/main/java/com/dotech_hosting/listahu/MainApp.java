@@ -24,8 +24,7 @@ public class MainApp extends Application {
         super.onCreate();
 
         mContext = this;
-        realmManager = new RealmManager(getApplicationContext());
-        realmManager.setupRealm();
+        RealmManager.setupRealm(getApplicationContext());
 
         // Initialize the Prefs class
         new Prefs.Builder()
