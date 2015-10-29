@@ -52,7 +52,7 @@ public class SmsListener extends BroadcastReceiver {
             Denuncia denuncia = new RealmManager(realm).isReported(incoming_number);
 
             if (denuncia != null) {
-                new AppHelpers(denuncia).showToast();
+                new AppHelpers(denuncia).NotifyUser();
             }
 
         } finally {
