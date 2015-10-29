@@ -3,17 +3,17 @@ package com.dotech_hosting.listahu.support;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dotech_hosting.listahu.MainApp;
 import com.dotech_hosting.listahu.R;
@@ -24,9 +24,11 @@ import com.dotech_hosting.listahu.models.Denuncia;
  */
 public class AppHelpers {
     private final Denuncia mDenuncia;
+    private final Context context;
 
     public AppHelpers(Denuncia denuncia) {
-       mDenuncia = denuncia;
+        mDenuncia = denuncia;
+        this.context = MainApp.getContext();
     }
 
     public void NotifyUser() {
@@ -35,32 +37,26 @@ public class AppHelpers {
     }
 
     private void showSystemAlert() {
-        Context ctx = MainApp.getContext();
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+        final WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_SYSTEM_ERROR,
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
 
-        final WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
-        final View myView = buildLayout();
-        myView.setOnTouchListener(new View.OnTouchListener() {
+        final View notificationView = buildLayout();
+        windowManager.addView(notificationView, params);
+
+        notificationView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                wm.removeView(myView);
+                windowManager.removeView(notificationView);
                 return true;
             }
         });
 
-        // Add layout to window manager
-        wm.addView(myView, params);
     }
 
     private void showNotification() {
-        Context ctx = MainApp.getContext();
         Notification noti =
                 new NotificationCompat.Builder(MainApp.getContext())
                         .setSmallIcon(buildImageResource())
@@ -71,12 +67,11 @@ public class AppHelpers {
                         .build();
 
         NotificationManager mNotificationManager =
-                (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, noti);
     }
 
     public View buildLayout() {
-        Context context = MainApp.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.toast_warning, null);
 

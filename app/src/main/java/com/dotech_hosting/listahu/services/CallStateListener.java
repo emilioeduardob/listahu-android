@@ -1,7 +1,9 @@
 package com.dotech_hosting.listahu.services;
 
+import android.os.Handler;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.dotech_hosting.listahu.RealmManager;
 import com.dotech_hosting.listahu.models.Denuncia;
@@ -14,10 +16,17 @@ import io.realm.Realm;
  */
 public class CallStateListener extends PhoneStateListener {
     @Override
-    public void onCallStateChanged(int state, String incomingNumber) {
+    public void onCallStateChanged(int state, final String incomingNumber) {
         switch (state) {
             case TelephonyManager.CALL_STATE_RINGING:
-                checkNumber(incomingNumber);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkNumber(incomingNumber);
+                    }
+                }, 2500);
+
                 break;
         }
     }
@@ -26,7 +35,7 @@ public class CallStateListener extends PhoneStateListener {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
-            Denuncia denuncia = new RealmManager(realm).isReported(incoming_number);
+            final Denuncia denuncia = new RealmManager(realm).isReported(incoming_number);
 
             if (denuncia != null) {
                 new AppHelpers(denuncia).NotifyUser();
