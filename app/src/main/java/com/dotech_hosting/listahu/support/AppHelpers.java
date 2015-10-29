@@ -99,7 +99,7 @@ public class AppHelpers {
 
     private String buildMessage() {
         String message = "Atención! El número " + mDenuncia.getNumero();
-        message += " esta denunciado como " + mDenuncia.getTipo();
+        message += " fue denunciado como " + mDenuncia.getTipo();
 
         return message;
     }
