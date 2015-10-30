@@ -5,6 +5,9 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.media.audiofx.BassBoost;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +36,13 @@ public class AppHelpers {
 
     public void NotifyUser() {
         showNotification();
-        showSystemAlert();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.canDrawOverlays(context)) {
+                showSystemAlert();
+            }
+        } else {
+            showSystemAlert();
+        }
     }
 
     private void showSystemAlert() {
