@@ -30,13 +30,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         running = isMyServiceRunning(CallDetectService.class);
         if (running) {
-            bnToggleService.setText("Detener Servicio");
+            bnToggleService.setText(R.string.stop_monitor);
         }
     }
 
@@ -46,22 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
         Intent i = new Intent(this, CallDetectService.class);
         if (running) {
-            Log.d(TAG, "Estaba corriendo");
             stopService(i);
-            bnToggleService.setText("Iniciar Servicio");
+            bnToggleService.setText(R.string.start_monitor);
         } else {
-            Log.d(TAG, "NO Estaba corriendo");
             startService(i);
             sync();
-            bnToggleService.setText("Detener Servicio");
+            bnToggleService.setText(R.string.stop_monitor);
         }
-    }
-
-    @OnClick(R.id.fab)
-    public void mensajeAction(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
