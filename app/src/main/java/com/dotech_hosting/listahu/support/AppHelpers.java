@@ -2,6 +2,7 @@ package com.dotech_hosting.listahu.support;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dotech_hosting.listahu.DenunciasActivity;
 import com.dotech_hosting.listahu.MainApp;
 import com.dotech_hosting.listahu.R;
 import com.dotech_hosting.listahu.models.Denuncia;
@@ -66,11 +68,18 @@ public class AppHelpers {
     }
 
     private void showNotification() {
+        Intent intent = new Intent(context, DenunciasActivity.class);
+        intent.putExtra("numero", mDenuncia.getNumero());
+        int requestID = (int) System.currentTimeMillis(); //unique requestID to differentiate between various notification with same NotifId
+        int flags = PendingIntent.FLAG_CANCEL_CURRENT; // cancel old intent and create new one
+        PendingIntent pIntent = PendingIntent.getActivity(context, requestID, intent, flags);
+
         Notification noti =
                 new NotificationCompat.Builder(MainApp.getContext())
                         .setSmallIcon(buildImageResource())
                         .setContentTitle("Lista Hü")
                         .setContentText(buildMessage())
+                        .setContentIntent(pIntent)
                         .setPriority(Notification.PRIORITY_MAX)
                         .setAutoCancel(true)
                         .build();

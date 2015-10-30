@@ -36,7 +36,7 @@ public class SyncService {
     public void getPage(final int page) {
         Log.d(TAG, "Getting page " + page);
         ApiService api = APIBackend.getApiInstance();
-        Call<DenunciaWrapper> call = api.getDenuncias(page);
+        Call<DenunciaWrapper> call = api.getDenuncias(page, null);
         call.enqueue(new Callback<DenunciaWrapper>() {
             @Override
             public void onResponse(final Response<DenunciaWrapper> response, Retrofit retrofit) {

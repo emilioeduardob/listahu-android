@@ -11,5 +11,5 @@ import retrofit.http.Query;
  */
 public interface ApiService {
     @GET("/api/v1/denuncias")
-    Call<DenunciaWrapper> getDenuncias(@Query("page") int page);
+    Call<DenunciaWrapper> getDenuncias(@Query("page") int page, @Query("numero") String numero);
 }
