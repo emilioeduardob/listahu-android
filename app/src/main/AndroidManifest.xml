@@ -47,7 +47,12 @@
             android:name=".services.UpdateService"
             android:exported="false" />
 
-        <activity android:name=".DenunciasActivity" >
+        <activity android:name=".DenunciasActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
     </application>
 
