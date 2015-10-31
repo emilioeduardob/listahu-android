@@ -1,11 +1,10 @@
-package com.dotech_hosting.listahu.services;
+package com.dotech_hosting.listahu.support;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.dotech_hosting.listahu.APIBackend;
 import com.dotech_hosting.listahu.ApiService;
-import com.dotech_hosting.listahu.MainActivity;
 import com.dotech_hosting.listahu.models.Denuncia;
 import com.dotech_hosting.listahu.models.DenunciaWrapper;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -19,12 +18,12 @@ import retrofit.Retrofit;
 /**
  * Created by emilio on 10/24/15.
  */
-public class SyncService {
+public class SyncManager {
 
-    private static final String TAG = SyncService.class.getSimpleName();
+    private static final String TAG = SyncManager.class.getSimpleName();
     private final Context mContext;
 
-    public SyncService(Context context) {
+    public SyncManager(Context context) {
        mContext = context;
     }
 

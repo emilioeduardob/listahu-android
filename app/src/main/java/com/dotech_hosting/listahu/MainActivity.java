@@ -7,22 +7,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dotech_hosting.listahu.models.Denuncia;
 import com.dotech_hosting.listahu.services.CallDetectService;
-import com.dotech_hosting.listahu.services.SyncService;
-import com.dotech_hosting.listahu.support.AppHelpers;
+import com.dotech_hosting.listahu.support.AlarmHelper;
+import com.dotech_hosting.listahu.support.SyncManager;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -91,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
             }
             String when = (String) DateUtils.getRelativeDateTimeString(this, added.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0);
             mLastUpdate.setText(when);
+        } else {
+            // register update
+            sync();
+            AlarmHelper.setUpdatesAlarm(this);
         }
     }
 
@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             bnToggleService.setText(R.string.start_monitor);
         } else {
             startService(i);
-            sync();
             requestPopupPermissions();
             bnToggleService.setText(R.string.stop_monitor);
         }
@@ -149,6 +148,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sync() {
-        new SyncService(this).sync();
+        new SyncManager(this).sync();
     }
 }
