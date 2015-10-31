@@ -8,10 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.dotech_hosting.listahu.adapters.DenunciaAdapter;
+import com.dotech_hosting.listahu.models.Denuncia;
 import com.dotech_hosting.listahu.models.DenunciaWrapper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -24,10 +28,19 @@ public class DenunciasActivity extends AppCompatActivity {
     private DenunciaAdapter mAdapter;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
+    private Realm realm;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_denuncias);
         ButterKnife.bind(this);
+        realm = Realm.getDefaultInstance();
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
@@ -39,20 +52,11 @@ public class DenunciasActivity extends AppCompatActivity {
     }
 
     private void queryNumber(String number) {
-        ApiService api = APIBackend.getApiInstance();
-        Call<DenunciaWrapper> getDenuncias = api.getDenuncias(1, number);
-        getDenuncias.enqueue(new Callback<DenunciaWrapper>() {
-            @Override
-            public void onResponse(Response<DenunciaWrapper> response, Retrofit retrofit) {
-                if (response.isSuccess()) {
-                    mAdapter.setData(response.body().results);
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
+        RealmQuery<Denuncia> query = realm.where(Denuncia.class);
+        if (number != null) {
+            query = query.equalTo("numero", number);
+        }
+        RealmResults<Denuncia> data = query.findAll();
+        mAdapter.setData(data);
     }
 }

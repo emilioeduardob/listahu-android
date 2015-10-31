@@ -3,6 +3,7 @@ package com.dotech_hosting.listahu;
 import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.Typeface;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.otto.Bus;
@@ -18,6 +19,7 @@ public class MainApp extends Application {
     private static Bus mBus;
     private static Context mContext;
     private static RealmManager realmManager;
+    private static Typeface roboto;
 
     @Override
     public void onCreate() {
@@ -33,8 +35,15 @@ public class MainApp extends Application {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
+
+
+        roboto = Typeface.createFromAsset(mContext.getAssets(),
+                "fonts/Roboto-Regular.ttf");
     }
 
+    public static Typeface getRobotoRegular() {
+        return roboto;
+    }
 
 
     public static Bus getBus() {

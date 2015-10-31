@@ -10,18 +10,26 @@ import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dotech_hosting.listahu.models.Denuncia;
 import com.dotech_hosting.listahu.services.CallDetectService;
 import com.dotech_hosting.listahu.services.SyncService;
 import com.dotech_hosting.listahu.support.AppHelpers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.button_toggle_service)
     public Button bnToggleService;
+    @Bind(R.id.textViewCantidadDenuncias)
+    public TextView mCantidadDenuncias;
+    @Bind(R.id.textViewLastUpdate)
+    public TextView mLastUpdate;
+
     private boolean running;
 
     @Override
@@ -46,6 +59,39 @@ public class MainActivity extends AppCompatActivity {
         if (running) {
             bnToggleService.setText(R.string.stop_monitor);
         }
+        updateUI();
+    }
+
+    private void updateUI() {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            long recordCount = realm.where(Denuncia.class)
+                    .count();
+            mCantidadDenuncias.setText(Long.toString(recordCount));
+
+            RealmResults<Denuncia> records = realm.where(Denuncia.class)
+                    .findAll();
+            records.sort("added", false);
+            Denuncia denuncia = records.get(0);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+            Date added = new Date();
+            try {
+                added = format.parse(denuncia.getAdded());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String when = (String) DateUtils.getRelativeDateTimeString(this, added.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0);
+            mLastUpdate.setText(when);
+        } finally {
+            realm.close();
+        }
+    }
+
+    @OnClick(R.id.buttonVerDenuncias)
+    public void openDenuncias() {
+        Intent i = new Intent(this, DenunciasActivity.class);
+        startActivity(i);
     }
 
     @OnClick(R.id.button_toggle_service)

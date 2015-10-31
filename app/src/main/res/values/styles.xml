@@ -14,4 +14,9 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="raised_button">
+        <item name="android:background">@drawable/raised_button</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>

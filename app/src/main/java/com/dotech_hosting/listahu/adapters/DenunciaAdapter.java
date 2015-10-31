@@ -53,7 +53,10 @@ public class DenunciaAdapter extends RecyclerView.Adapter<DenunciaAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Denuncia denuncia = mData.get(position);
         holder.descripcion.setText(denuncia.getDesc());
-        Picasso.with(mContext).load(denuncia.getScreenshot()).into(holder.foto);
+        Picasso.with(mContext)
+                .load(denuncia.getScreenshot())
+                .placeholder(R.drawable.not_available)
+                .into(holder.foto);
         if (denuncia.getTipo().equals("Extorsión")) {
             holder.icono.setImageResource(R.drawable.ic_icon_evil);
         } else {
