@@ -22,6 +22,7 @@ import com.dotech_hosting.listahu.services.CallDetectService;
 import com.dotech_hosting.listahu.services.SyncService;
 import com.dotech_hosting.listahu.support.AppHelpers;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -68,10 +69,17 @@ public class MainActivity extends AppCompatActivity {
             long recordCount = realm.where(Denuncia.class)
                     .count();
             mCantidadDenuncias.setText(Long.toString(recordCount));
+            setLastUpdateTime(realm);
+        } finally {
+            realm.close();
+        }
+    }
 
-            RealmResults<Denuncia> records = realm.where(Denuncia.class)
-                    .findAll();
-            records.sort("added", false);
+    private void setLastUpdateTime(Realm realm) {
+        RealmResults<Denuncia> records = realm.where(Denuncia.class)
+                .findAll();
+        records.sort("added", false);
+        if (!records.isEmpty()) {
             Denuncia denuncia = records.get(0);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
@@ -83,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
             }
             String when = (String) DateUtils.getRelativeDateTimeString(this, added.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0);
             mLastUpdate.setText(when);
-        } finally {
-            realm.close();
         }
     }
 
