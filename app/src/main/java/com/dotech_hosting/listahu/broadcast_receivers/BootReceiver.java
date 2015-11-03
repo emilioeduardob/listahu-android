@@ -1,15 +1,11 @@
-package com.dotech_hosting.listahu;
+package com.dotech_hosting.listahu.broadcast_receivers;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
 
+import com.dotech_hosting.listahu.broadcast_receivers.AlarmReceiver;
 import com.dotech_hosting.listahu.services.CallDetectService;
-import com.dotech_hosting.listahu.services.UpdateService;
-import com.dotech_hosting.listahu.support.AlarmHelper;
 
 /**
  * Created by emilio on 10/29/15.
@@ -20,7 +16,7 @@ public class BootReceiver extends BroadcastReceiver {
         Intent i = new Intent(context, CallDetectService.class);
         context.startService(i);
 
-        AlarmHelper.setUpdatesAlarm(context);
+        AlarmReceiver.setUpAlarm(context);
     }
 
 }

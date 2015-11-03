@@ -1,4 +1,4 @@
-package com.dotech_hosting.listahu.services;
+package com.dotech_hosting.listahu.broadcast_receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,9 +17,9 @@ import io.realm.Realm;
 /**
  * Created by emilio on 10/22/15.
  */
-public class SmsListener extends BroadcastReceiver {
+public class SmsReceiver extends BroadcastReceiver {
 
-    private static final String TAG = SmsListener.class.getSimpleName();
+    private static final String TAG = SmsReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -49,6 +49,9 @@ public class SmsListener extends BroadcastReceiver {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
+            if (incoming_number.matches("\\+.*")) {
+                incoming_number = incoming_number.substring(1);
+            }
             Denuncia denuncia = new RealmManager(realm).isReported(incoming_number);
 
             if (denuncia != null) {

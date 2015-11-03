@@ -26,17 +26,19 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".services.SmsListener" >
+        <receiver android:name=".broadcast_receivers.SmsReceiver" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BootReceiver" >
+        <receiver android:name=".broadcast_receivers.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
 
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
+        </receiver>
+        <receiver android:name=".broadcast_receivers.AlarmReceiver" >
         </receiver>
 
         <service

@@ -14,9 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dotech_hosting.listahu.broadcast_receivers.AlarmReceiver;
 import com.dotech_hosting.listahu.models.Denuncia;
 import com.dotech_hosting.listahu.services.CallDetectService;
-import com.dotech_hosting.listahu.support.AlarmHelper;
 import com.dotech_hosting.listahu.support.SyncManager;
 
 import java.text.SimpleDateFormat;
@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
             bnToggleService.setText(R.string.stop_monitor);
         }
         updateUI();
+        if (!AlarmReceiver.isAlarmSetUp(this)) {
+            AlarmReceiver.setUpAlarm(this);
+        }
     }
 
     private void updateUI() {
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // register update
             sync();
-            AlarmHelper.setUpdatesAlarm(this);
         }
     }
 
