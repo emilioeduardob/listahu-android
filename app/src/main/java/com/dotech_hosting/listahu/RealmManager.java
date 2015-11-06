@@ -58,6 +58,9 @@ public class RealmManager {
 
 
     public Denuncia isReported(String incomingNumber) {
+        if (incomingNumber.matches("\\+.*")) {
+            incomingNumber = incomingNumber.substring(1);
+        }
         Denuncia result = mRealm.where(Denuncia.class)
                 .equalTo("numero", incomingNumber)
                 .findFirst();

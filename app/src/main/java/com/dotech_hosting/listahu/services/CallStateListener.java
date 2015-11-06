@@ -15,6 +15,8 @@ import io.realm.Realm;
  * Created by emilio on 10/22/15.
  */
 public class CallStateListener extends PhoneStateListener {
+    private static final String TAG = CallStateListener.class.getSimpleName();
+
     @Override
     public void onCallStateChanged(int state, final String incomingNumber) {
         switch (state) {
