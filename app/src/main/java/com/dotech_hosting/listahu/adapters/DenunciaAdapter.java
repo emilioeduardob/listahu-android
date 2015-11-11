@@ -2,6 +2,7 @@ package com.dotech_hosting.listahu.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import com.dotech_hosting.listahu.R;
 import com.dotech_hosting.listahu.models.Denuncia;
 import com.squareup.picasso.Picasso;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
 import butterknife.Bind;
@@ -53,8 +56,9 @@ public class DenunciaAdapter extends RecyclerView.Adapter<DenunciaAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Denuncia denuncia = mData.get(position);
         holder.descripcion.setText(denuncia.getDesc());
+        String thumbnail = getThumbnail(denuncia.getScreenshot());
         Picasso.with(mContext)
-                .load(denuncia.getScreenshot())
+                .load(thumbnail)
                 .placeholder(R.drawable.not_available)
                 .into(holder.foto);
         if (denuncia.getTipo().equals("Extorsión")) {
@@ -62,6 +66,14 @@ public class DenunciaAdapter extends RecyclerView.Adapter<DenunciaAdapter.ViewHo
         } else {
             holder.icono.setImageResource(R.drawable.ic_icon_warning);
         }
+    }
+
+    private String getThumbnail(String screenshot) {
+        int pos = screenshot.lastIndexOf(".");
+        String start = screenshot.substring(0, pos);
+        String extension = screenshot.substring(pos + 1 );
+
+        return start + "_th." + extension;
     }
 
     @Override
