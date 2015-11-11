@@ -7,25 +7,29 @@
     android:layout_marginTop="@dimen/activity_horizontal_margin"
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageViewDenuncia"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/small_gap"
+            android:layout_weight="3"
+            android:src="@drawable/not_available"
+            android:adjustViewBounds="true" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:layout_height="match_parent">
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:padding="@dimen/small_gap"
+            android:layout_height="wrap_content"
+            android:layout_weight="7">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
                 tools:src="@drawable/ic_icon_evil"
                 android:id="@+id/imageViewTipoDenuncia" />
 
@@ -34,9 +38,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                tools:text="Un tipo llama y dice llorando 'Papa, choque papa'"/>
+                tools:text="Un tipo llama y dice llorando 'Papa, choque papa'"
+                android:maxLength="200"
+                android:ellipsize="end"
+                android:layout_below="@+id/imageViewTipoDenuncia"
+                android:layout_alignLeft="@+id/imageViewTipoDenuncia"
+                android:layout_alignStart="@+id/imageViewTipoDenuncia" />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="595981450414"
+                android:id="@+id/textViewNumero"
+                android:layout_alignTop="@+id/imageViewTipoDenuncia"
+                android:layout_alignBottom="@+id/imageViewTipoDenuncia"
+                android:layout_toRightOf="@+id/imageViewTipoDenuncia"
+                android:layout_toEndOf="@+id/imageViewTipoDenuncia"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="4dp" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

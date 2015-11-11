@@ -56,6 +56,7 @@ public class DenunciaAdapter extends RecyclerView.Adapter<DenunciaAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Denuncia denuncia = mData.get(position);
         holder.descripcion.setText(denuncia.getDesc());
+        holder.numero.setText(denuncia.getNumero());
         String thumbnail = getThumbnail(denuncia.getScreenshot());
         Picasso.with(mContext)
                 .load(thumbnail)
@@ -87,6 +88,8 @@ public class DenunciaAdapter extends RecyclerView.Adapter<DenunciaAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.textViewNumero)
+        public TextView numero;
         @Bind(R.id.textViewMensaje)
         public TextView descripcion;
         @Bind(R.id.imageViewDenuncia)
