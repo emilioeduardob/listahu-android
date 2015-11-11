@@ -3,4 +3,5 @@
     <string name="title_activity_main">Lista Hũ</string>
     <string name="start_monitor">Monitorear Llamadas</string>
     <string name="stop_monitor">Detener Monitoreo</string>
+    <string name="title_activity_denuncia">Denuncia</string>
 </resources>

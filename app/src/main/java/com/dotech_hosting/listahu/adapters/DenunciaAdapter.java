@@ -1,6 +1,7 @@
 package com.dotech_hosting.listahu.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dotech_hosting.listahu.DenunciaActivity;
 import com.dotech_hosting.listahu.R;
 import com.dotech_hosting.listahu.models.Denuncia;
 import com.squareup.picasso.Picasso;
@@ -87,7 +89,7 @@ public class DenunciaAdapter extends RecyclerView.Adapter<DenunciaAdapter.ViewHo
 
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.textViewNumero)
         public TextView numero;
         @Bind(R.id.textViewMensaje)
@@ -100,6 +102,16 @@ public class DenunciaAdapter extends RecyclerView.Adapter<DenunciaAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getLayoutPosition();
+            Denuncia denuncia = mData.get(position);
+            Intent i = new Intent(mContext, DenunciaActivity.class);
+            i.putExtra("id", denuncia.getId());
+            mContext.startActivity(i);
         }
     }
 }
