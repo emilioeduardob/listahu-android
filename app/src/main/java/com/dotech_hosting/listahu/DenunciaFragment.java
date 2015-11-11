@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dotech_hosting.listahu.models.Denuncia;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -65,17 +64,7 @@ public class DenunciaFragment extends Fragment {
             Picasso.with(getContext())
                     .load(denuncia.getScreenshot())
                     .placeholder(R.drawable.not_available)
-                    .into(mFoto, new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        @Override
-                        public void onError() {
-
-                        }
-                    });
+                    .into(mFoto);
 
             if (denuncia.getTipo().equals("Extorsión")) {
                 mIcono.setImageResource(R.drawable.ic_icon_evil);
