@@ -47,4 +47,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'io.realm:realm-android:0.83.1'
     compile 'com.pixplicity.easyprefs:library:1.7'
+    // Development dependencies
+    debugCompile 'com.facebook.stetho:stetho:1.2.0'
+    debugCompile 'com.facebook.stetho:stetho-okhttp:1.2.0'
+
 }

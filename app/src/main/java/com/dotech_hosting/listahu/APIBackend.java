@@ -5,6 +5,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.OkHttpClient;
 
 import io.realm.RealmObject;
 import retrofit.GsonConverterFactory;
@@ -23,10 +24,12 @@ public class APIBackend {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
                 .addConverterFactory(GsonConverterFactory.create(getGson()))
+                .client(RetrofitUtils.getClient())
                 .build();
 
         return retrofit.create(ApiService.class);
-    };
+    }
+
 
     private static Gson getGson() {
         Gson gson = new GsonBuilder()

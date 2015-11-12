@@ -6,6 +6,7 @@ import android.content.ContextWrapper;
 import android.graphics.Typeface;
 
 import com.pixplicity.easyprefs.library.Prefs;
+import com.squareup.okhttp.OkHttpClient;
 import com.squareup.otto.Bus;
 
 /**
@@ -20,6 +21,15 @@ public class MainApp extends Application {
     private static Context mContext;
     private static RealmManager realmManager;
     private static Typeface roboto;
+
+    private static OkHttpClient okHttpClient;
+
+    public static OkHttpClient getOkHttpClient() {
+        if (okHttpClient == null) {
+            okHttpClient = new OkHttpClient();
+        }
+        return okHttpClient;
+    }
 
     @Override
     public void onCreate() {
